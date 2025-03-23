@@ -21,7 +21,7 @@ public class ReportTagMap {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "board_id")
+    @JoinColumn(name = "report_id")
     private Report report;
 
     @ManyToOne(fetch = LAZY)
