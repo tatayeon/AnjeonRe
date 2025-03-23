@@ -20,7 +20,7 @@ spring:
     show-sql: true
 
 jwt:
-  secret: Spqowieursakldjfhgx213213dsadDsadsadsASDSAasdsaTRYYUJYDSJHjksahdsdlkjgfh
+  secret: SpqowieudsddsrsakldjfhyTKkgx213nH213dsadDsadsDSadsASDSAasdsaTRYYUJYDSJHasdjksahdsdlkjgfh
   expiration_time: 2592000000 # 30?
 
 django:

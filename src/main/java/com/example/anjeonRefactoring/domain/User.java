@@ -30,9 +30,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // 일대다 관계 설정
     private List<Report> reports = new ArrayList<>();
 
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, RoleType role) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 }
