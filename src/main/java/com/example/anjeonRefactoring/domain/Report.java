@@ -22,6 +22,8 @@ public class Report {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    private Long createZoneId;
+
     private String content;
 
     private LocalDateTime createdAt;
@@ -37,9 +39,11 @@ public class Report {
     private List<ReportTagMap> tags = new ArrayList<>();
 
     @Builder
-    public Report(String content, LocalDateTime createdAt, ReportState reportState) {
+    public Report(Long createZoneId,String content, LocalDateTime createdAt, ReportState reportState, User user) {
+        this.createZoneId = createZoneId;
         this.content = content;
         this.createdAt = createdAt;
         this.reportState = reportState;
+        this.user = user;
     }
 }
