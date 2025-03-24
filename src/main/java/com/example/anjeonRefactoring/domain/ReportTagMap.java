@@ -1,11 +1,9 @@
 package com.example.anjeonRefactoring.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -27,5 +25,11 @@ public class ReportTagMap {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "tag_id")
     private Tag tag;
+
+    @Builder
+    public ReportTagMap(Report report, Tag tag) {
+        this.report = report;
+        this.tag = tag;
+    }
 
 }
