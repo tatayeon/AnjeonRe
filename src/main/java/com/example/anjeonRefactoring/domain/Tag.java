@@ -2,6 +2,7 @@ package com.example.anjeonRefactoring.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,7 @@ public class Tag {
 
     private String tagName;
 
+    @Builder
     public Tag(String category, String tagName) {
         this.category = category;
         this.tagName = tagName;
