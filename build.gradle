@@ -43,6 +43,8 @@ dependencies {
 
 	implementation 'org.apache.httpcomponents.client5:httpclient5'
 
+	implementation 'org.json:json:20210307'
+
 }
 
 tasks.named('test') {

@@ -4,6 +4,7 @@ import com.example.anjeonRefactoring.domain.enumration.ZoneState;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.jdbc.datasource.SmartDataSource;
 
 import javax.crypto.Mac;
@@ -27,6 +28,7 @@ public class Zone {
     @Enumerated(EnumType.STRING)
     private ZoneState zoneState;
 
+    @Setter
     private int threshold;
 
     @OneToMany(mappedBy = "zone")
@@ -34,4 +36,6 @@ public class Zone {
 
     @OneToMany(mappedBy = "zone")
     private List<Noise> noises = new ArrayList<>();
+
+
 }
