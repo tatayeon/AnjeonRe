@@ -1,6 +1,5 @@
 package com.example.anjeonRefactoring.controller;
 
-import com.example.anjeonRefactoring.domain.User;
 import com.example.anjeonRefactoring.repuestDto.LoginDto;
 import com.example.anjeonRefactoring.repuestDto.RegisterReuestDto;
 import com.example.anjeonRefactoring.responsDto.LoginResponseDto;

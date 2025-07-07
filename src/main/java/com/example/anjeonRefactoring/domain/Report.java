@@ -46,4 +46,8 @@ public class Report {
         this.reportState = reportState;
         this.user = user;
     }
+
+    public void setReportState(ReportState reportState) {
+        this.reportState = reportState;
+    }
 }

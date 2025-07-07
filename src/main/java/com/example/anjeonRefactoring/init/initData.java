@@ -8,7 +8,6 @@ import com.example.anjeonRefactoring.repository.TagRepository;
 import com.example.anjeonRefactoring.repository.UserRepository;
 import com.example.anjeonRefactoring.service.ReportService;
 import jakarta.annotation.PostConstruct;
-import jakarta.persistence.OneToMany;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

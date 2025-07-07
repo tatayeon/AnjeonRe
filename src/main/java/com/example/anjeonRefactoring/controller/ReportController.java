@@ -38,4 +38,10 @@ public class ReportController {
         return new ResponseEntity<>(listReport, HttpStatus.OK);
     }
 
+    @GetMapping("/changeState/{reportId}")
+    public String changeState(@AuthenticationPrincipal UserDetails user, @PathVariable Long reportId) {
+        reportService.changeState(reportId);
+        return "success";
+    }
+
 }

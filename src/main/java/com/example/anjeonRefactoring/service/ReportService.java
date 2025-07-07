@@ -4,6 +4,7 @@ import com.example.anjeonRefactoring.domain.Report;
 import com.example.anjeonRefactoring.domain.ReportTagMap;
 import com.example.anjeonRefactoring.domain.Tag;
 import com.example.anjeonRefactoring.domain.User;
+import com.example.anjeonRefactoring.domain.enumration.ReportState;
 import com.example.anjeonRefactoring.exception.CustomException;
 import com.example.anjeonRefactoring.repository.ReportRepository;
 import com.example.anjeonRefactoring.repository.ReportTagMapRepository;
@@ -16,15 +17,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.example.anjeonRefactoring.domain.enumration.ReportState.BEFOR;
+import static com.example.anjeonRefactoring.domain.enumration.ReportState.BEFORE;
+import static com.example.anjeonRefactoring.domain.enumration.ReportState.AFTER;
 
 @Slf4j
 @Service
@@ -47,7 +47,7 @@ public class ReportService {
                 .createZoneId(dto.getCreateZoneId())
                 .content(dto.getContent())
                 .createdAt(LocalDateTime.now())
-                .reportState(BEFOR)
+                .reportState(BEFORE)
                 .user(user)
                 .build();
 
@@ -91,5 +91,17 @@ public class ReportService {
                         report.getUser().getId()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void changeState(Long reportId) {
+        Report report = reportRepository.findById(reportId)
+                .orElseThrow(() -> new CustomException("Report not found", HttpStatus.NOT_FOUND));
+
+        if (report.getReportState() == ReportState.BEFORE) {
+            report.setReportState(AFTER);
+        }else {
+            report.setReportState(BEFORE);
+        }
     }
 }
