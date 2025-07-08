@@ -11,6 +11,7 @@ import com.example.anjeonRefactoring.repository.ReportTagMapRepository;
 import com.example.anjeonRefactoring.repository.TagRepository;
 import com.example.anjeonRefactoring.repository.UserRepository;
 import com.example.anjeonRefactoring.repuestDto.CreateReportDto;
+import com.example.anjeonRefactoring.responsDto.ShowDetailReportDto;
 import com.example.anjeonRefactoring.responsDto.ShowMonthlyReportDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.example.anjeonRefactoring.domain.enumration.ReportState.BEFORE;
@@ -103,5 +106,27 @@ public class ReportService {
         }else {
             report.setReportState(BEFORE);
         }
+    }
+
+    public ShowDetailReportDto detailReport(Long reportId) {
+        Report report = reportRepository.findById(reportId)
+                .orElseThrow(() -> new CustomException("Report not found", HttpStatus.NOT_FOUND));
+
+        List<ReportTagMap> tagMaps = reportTagMapRepository.findByReportId(reportId);
+
+        Map<Long, String> tagMap = tagMaps.stream()
+                .collect(Collectors.toMap(
+                        m -> m.getTag().getId(),
+                        m -> m.getTag().getTagName()
+                ));
+
+        ShowDetailReportDto detailReportDto = ShowDetailReportDto.builder()
+                .content(report.getContent())
+                .reportState(report.getReportState())
+                .createdAt(report.getCreatedAt())
+                .zoneId(report.getCreateZoneId())
+                .tagMap(tagMap)
+                .build();
+        return detailReportDto;
     }
 }

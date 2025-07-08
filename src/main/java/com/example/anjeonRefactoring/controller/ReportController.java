@@ -1,8 +1,7 @@
 package com.example.anjeonRefactoring.controller;
 
-import com.example.anjeonRefactoring.domain.Report;
-import com.example.anjeonRefactoring.domain.User;
 import com.example.anjeonRefactoring.repuestDto.CreateReportDto;
+import com.example.anjeonRefactoring.responsDto.ShowDetailReportDto;
 import com.example.anjeonRefactoring.responsDto.ShowMonthlyReportDto;
 import com.example.anjeonRefactoring.service.ReportService;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +41,12 @@ public class ReportController {
     public String changeState(@AuthenticationPrincipal UserDetails user, @PathVariable Long reportId) {
         reportService.changeState(reportId);
         return "success";
+    }
+
+    @GetMapping("/detail/{reportId}")
+    public ResponseEntity<ShowDetailReportDto> detail(@AuthenticationPrincipal UserDetails user, @PathVariable Long reportId) {
+        ShowDetailReportDto showDetailReportDto = reportService.detailReport(reportId);
+        return ResponseEntity.ok(showDetailReportDto);
     }
 
 }
