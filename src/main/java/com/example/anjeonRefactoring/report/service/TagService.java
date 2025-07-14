@@ -1,6 +1,7 @@
 package com.example.anjeonRefactoring.report.service;
 
 import com.example.anjeonRefactoring.report.domain.Tag;
+import com.example.anjeonRefactoring.report.exception.TagNotFoundException;
 import com.example.anjeonRefactoring.report.repository.ReportTagMapRepository;
 import com.example.anjeonRefactoring.report.repository.TagRepository;
 import com.example.anjeonRefactoring.report.dto.CreateTagDto;
@@ -60,7 +61,7 @@ public class TagService {
     @Transactional
     public List<ShowTagDto> delete(Long tagId) {
         Tag tag = tagRepository.findById(tagId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 태그가 존재하지 않습니다."));
+                        .orElseThrow(TagNotFoundException::new);
 
         tagRepository.delete(tag);
 //        reportTagMapRepository.deleteAllByTagId(tagId);

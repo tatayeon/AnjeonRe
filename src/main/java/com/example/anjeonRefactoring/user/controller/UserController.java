@@ -1,9 +1,11 @@
 package com.example.anjeonRefactoring.user.controller;
 
+import com.example.anjeonRefactoring.global.annotation.ApiErrorCodeExamples;
 import com.example.anjeonRefactoring.user.dto.LoginDto;
 import com.example.anjeonRefactoring.user.dto.RegisterReuestDto;
 import com.example.anjeonRefactoring.user.dto.LoginResponseDto;
 import com.example.anjeonRefactoring.user.dto.UserDto;
+import com.example.anjeonRefactoring.user.exception.UserNotFoundException;
 import com.example.anjeonRefactoring.user.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,6 +34,9 @@ public class UserController {
         return result;
     }
 
+    @ApiErrorCodeExamples(
+            UserNotFoundException.class
+    )
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto dto){
         System.out.println("dto = " + dto);

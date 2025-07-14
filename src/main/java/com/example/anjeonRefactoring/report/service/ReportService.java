@@ -3,19 +3,20 @@ package com.example.anjeonRefactoring.report.service;
 import com.example.anjeonRefactoring.report.domain.Report;
 import com.example.anjeonRefactoring.report.domain.ReportTagMap;
 import com.example.anjeonRefactoring.report.domain.Tag;
+import com.example.anjeonRefactoring.report.exception.ReportNotFoundException;
+import com.example.anjeonRefactoring.report.exception.TagNotFoundException;
 import com.example.anjeonRefactoring.user.domain.User;
 import com.example.anjeonRefactoring.report.domain.enumration.ReportState;
-import com.example.anjeonRefactoring.global.exception.CustomException;
 import com.example.anjeonRefactoring.report.repository.ReportRepository;
 import com.example.anjeonRefactoring.report.repository.ReportTagMapRepository;
 import com.example.anjeonRefactoring.report.repository.TagRepository;
+import com.example.anjeonRefactoring.user.exception.UserNotFoundException;
 import com.example.anjeonRefactoring.user.repository.UserRepository;
 import com.example.anjeonRefactoring.report.dto.CreateReportDto;
 import com.example.anjeonRefactoring.report.dto.ShowDetailReportDto;
 import com.example.anjeonRefactoring.report.dto.ShowMonthlyReportDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,10 +42,8 @@ public class ReportService {
 
     @Transactional
     public String createReport(CreateReportDto dto, String userName) {
-        User user = userRepository.findById(Long.parseLong(userName)).orElseThrow(
-                () -> new CustomException("User not found", HttpStatus.NOT_FOUND)
-        );
-
+        User user = userRepository.findById(Long.parseLong(userName))
+                .orElseThrow(UserNotFoundException::new);
         Report report = Report.builder()
                 .createZoneId(dto.getCreateZoneId())
                 .content(dto.getContent())
@@ -58,9 +57,9 @@ public class ReportService {
         // 태그 ID 리스트를 기반으로 ReportTagMap 생성
         List<ReportTagMap> reportTagMaps = dto.getTagId().stream()
                 .map(tagId -> {
-                    Tag tag = tagRepository.findById(tagId).orElseThrow(
-                            () -> new CustomException("Tag not found", HttpStatus.NOT_FOUND)
-                    );
+                    Tag tag = tagRepository.findById(tagId)
+                            .orElseThrow(TagNotFoundException::new);
+
                     return new ReportTagMap(report, tag);
                 })
                 .collect(Collectors.toList());
@@ -98,7 +97,7 @@ public class ReportService {
     @Transactional
     public void changeState(Long reportId) {
         Report report = reportRepository.findById(reportId)
-                .orElseThrow(() -> new CustomException("Report not found", HttpStatus.NOT_FOUND));
+                .orElseThrow(ReportNotFoundException::new);
 
         if (report.getReportState() == ReportState.BEFORE) {
             report.setReportState(AFTER);
@@ -109,7 +108,7 @@ public class ReportService {
 
     public ShowDetailReportDto detailReport(Long reportId) {
         Report report = reportRepository.findById(reportId)
-                .orElseThrow(() -> new CustomException("Report not found", HttpStatus.NOT_FOUND));
+                .orElseThrow(ReportNotFoundException::new);
 
         List<ReportTagMap> tagMaps = reportTagMapRepository.findByReportId(reportId);
 
