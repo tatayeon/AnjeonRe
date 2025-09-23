@@ -73,25 +73,24 @@ public class ReportService {
 
     @Transactional
     public List<ShowMonthlyReportDto> showMonthlyReport(int year, int month) {
-        // 1. 해당 월에 해당하는 Report 데이터 조회
-        List<Report> reports = reportRepository.findByCreatedAtBetween(
-                LocalDate.of(year, month, 1).atStartOfDay(),
-                LocalDate.of(year, month, 1).plusMonths(1).atStartOfDay().minusSeconds(1)
-        );
 
-        // 2. Report 데이터를 ShowMonthlyReportDto로 변환
+        List<Report> reports = reportRepository.findAllWithTags();
+
         return reports.stream()
-                .map(report -> new ShowMonthlyReportDto(
-                        report.getCreatedAt().withSecond(0),
-                        report.getCreateZoneId(),  // Zone Name 대신 ID가 있을 수도 있음
-                        report.getTags().stream()
-                                .map(ReportTagMap::getTag) // ReportTagMap에서 Tag 추출
-                                .collect(Collectors.toList()),
-                        report.getContent(),
-                        report.getReportState(),
-                        report.getUser().getId()
-                ))
-                .collect(Collectors.toList());
+                 .map(report -> {
+                         List<Tag> tags = report.getTags().stream()
+                                 .map(ReportTagMap::getTag)
+                                 .collect(Collectors.toList());
+                         return new ShowMonthlyReportDto(
+                                 report.getCreatedAt(),
+                                 report.getCreateZoneId(),
+                                 tags,
+                                 report.getContent(),
+                                 report.getReportState(),
+                                 report.getUser().getId()
+                         );
+                     })
+                 .collect(Collectors.toList());
     }
 
     @Transactional
@@ -107,12 +106,10 @@ public class ReportService {
     }
 
     public ShowDetailReportDto detailReport(Long reportId) {
-        Report report = reportRepository.findById(reportId)
+        Report report = reportRepository.findByIdWithTags(reportId)
                 .orElseThrow(ReportNotFoundException::new);
 
-        List<ReportTagMap> tagMaps = reportTagMapRepository.findByReportId(reportId);
-
-        Map<Long, String> tagMap = tagMaps.stream()
+        Map<Long, String> tagMap = report.getTags().stream()
                 .collect(Collectors.toMap(
                         m -> m.getTag().getId(),
                         m -> m.getTag().getTagName()

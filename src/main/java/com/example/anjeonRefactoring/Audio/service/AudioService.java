@@ -108,9 +108,6 @@ public class AudioService {
         return responseDTO;
     }
 
-    /**
-     * WebM 파일을 MP3로 변환하는 메서드
-     */
     private File convertWebmToMp3(File webmFile) {
         // 출력 파일명: 확장자를 .mp3로 변경 (대소문자 구분 없이)
         File mp3File = new File(webmFile.getAbsolutePath().replaceAll("(?i)\\.webm$", ".mp3"));

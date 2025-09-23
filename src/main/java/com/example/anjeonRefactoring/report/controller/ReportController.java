@@ -59,6 +59,7 @@ public class ReportController {
     })
     @GetMapping("/detail/{reportId}")
     public ResponseEntity<ShowDetailReportDto> detail(@AuthenticationPrincipal UserDetails user, @PathVariable Long reportId) {
+        System.out.println("USERNAME :::"+user.getUsername());
         ShowDetailReportDto showDetailReportDto = reportService.detailReport(reportId);
         return ResponseEntity.ok(showDetailReportDto);
     }
