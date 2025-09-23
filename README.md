@@ -8,11 +8,6 @@
 <br/>
 <br/>
 
-## 목차
-1. [프로젝트 개요](#1)
-2. [주요 기능](#2)
-3. [UI Flow](#3)
-
 <br/>
 
 ## <span id ="1"> 프로젝트 개요 </span>
@@ -64,3 +59,4 @@ AI를 이용한 분석과 감지를 바탕으로 선제적 조치가 가능하�
 🍿 Fun facts - what does your team eat for breakfast?
 🧙 Remember, you can do mighty things with the power of [Markdown](https://docs.github.com/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 -->
+
